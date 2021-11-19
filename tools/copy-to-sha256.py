@@ -8,6 +8,7 @@ import hashlib
 import shutil
 import tarfile
 
+HASH_LENGTH = 8
 
 def hash_file(filename):
     with open(filename, "rb", buffering=0) as f:
@@ -62,8 +63,9 @@ def handle_dir(logger, from_path, to_path):
             if stat.S_ISLNK(mode) or stat.S_ISCHR(mode) or stat.S_ISBLK(mode) or stat.S_ISFIFO(mode) or stat.S_ISSOCK(mode):
                 continue
 
-            sha256 = hash_file(absname)
-            to_abs = os.path.join(to_path, sha256)
+            file_hash = hash_file(absname)
+            filename = file_hash[0:HASH_LENGTH] + ".bin"
+            to_abs = os.path.join(to_path, filename)
 
             if os.path.exists(to_abs):
                 logger.info("Exists, skipped {} ({})".format(to_abs, absname))
@@ -75,9 +77,9 @@ def handle_tar(logger, tar, to_path):
     for member in tar.getmembers():
         if member.isfile() or member.islnk():
             f = tar.extractfile(member)
-            sha256 = hash_fileobj(f)
-
-            to_abs = os.path.join(to_path, sha256)
+            file_hash = hash_fileobj(f)
+            filename = file_hash[0:HASH_LENGTH] + ".bin"
+            to_abs = os.path.join(to_path, filename)
 
             if os.path.exists(to_abs):
                 logger.info("Exists, skipped {} ({})".format(to_abs, member.name))
