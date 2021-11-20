@@ -31,7 +31,7 @@ list of emulated hardware:
 - A SoundBlaster 16 sound card.
 
 ## Demos
-
+[Mac OS 7].(https://copy.sh/v86/?profile=macos7 -
 [Arch Linux](https://copy.sh/v86/?profile=archlinux) —
 [Damn Small Linux](https://copy.sh/v86/?profile=dsl) —
 [Buildroot Linux](https://copy.sh/v86/?profile=buildroot) —
